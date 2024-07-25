@@ -1,8 +1,4 @@
-import './Main.css';
-export function Main({ children }) {
-  return (
-    <section className="main">
-      {children}
-    </section>
-  )
-}
+import "./Main.css";
+export const Main = ({ children }) => {
+  return <section className="main">{children}</section>;
+};

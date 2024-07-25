@@ -1,7 +1,7 @@
 import { Button } from "../Button/Button.jsx";
-import './TasksFilter.css';
+import "./TasksFilter.css";
 
-export function TasksFilter() {
+export const TasksFilter = () => {
   return (
     <ul className="filters">
       <li>
@@ -15,4 +15,4 @@ export function TasksFilter() {
       </li>
     </ul>
   );
-}
+};

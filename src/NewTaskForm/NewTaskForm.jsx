@@ -1,5 +1,5 @@
-import './NewTaskForm.css';
-export function NewTaskForm() {
+import "./NewTaskForm.css";
+export const NewTaskForm = () => {
   return (
     <header className="header">
       <h1>todos</h1>
@@ -10,4 +10,4 @@ export function NewTaskForm() {
       />
     </header>
   );
-}
+};

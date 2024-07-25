@@ -1,24 +1,19 @@
 import "./TaskList.css";
 import { Task } from "../Task/Task.jsx";
 
-export function TaskList({ date }) {
+export const TaskList = ({ data, onRemove }) => {
   return (
     <ul className="todo-list">
-      <Task
-        className="completed"
-        description="Completed task"
-        created={`created ${date}`}
-      />
-      <Task
-        className="editing"
-        description="Editing task"
-        created="created 5 minutes ago"
-      />
-      <Task
-        className="active"
-        description="Active task"
-        created="created 5 minutes ago"
-      />
+      {data.map((item) => {
+        const { id, ...itemProps } = item;
+        return (
+          <Task
+            key={id}
+            {...itemProps}
+            onRemove={() => onRemove(id)}
+          />
+        );
+      })}
     </ul>
   );
-}
+};
