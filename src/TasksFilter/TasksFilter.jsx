@@ -1,18 +1,27 @@
-import { Button } from "../Button/Button.jsx";
 import "./TasksFilter.css";
+import { Button } from "../Button/Button.jsx";
 
-export const TasksFilter = () => {
+const buttons = [
+  { name: "All" },
+  { name: "Active" },
+  { name: "Completed" },
+];
+
+export const TasksFilter = ({ filter, onSwitchFilter }) => {
   return (
     <ul className="filters">
-      <li>
-        <Button className="selected" name={"All"} />
-      </li>
-      <li>
-        <Button name={"Active"} />
-      </li>
-      <li>
-        <Button name={"Completed"} />
-      </li>
+      {buttons.map(({ name }) => {
+        const isActive = filter === name;
+        return (
+          <li key={name}>
+            <Button
+              name={name}
+              className={isActive ? "selected" : undefined}
+              onSwitchFilter={onSwitchFilter}
+            />
+          </li>
+        );
+      })}
     </ul>
   );
 };

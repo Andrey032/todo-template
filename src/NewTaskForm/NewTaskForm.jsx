@@ -1,13 +1,29 @@
 import "./NewTaskForm.css";
-export const NewTaskForm = () => {
+import Input from "../Input/Input";
+import { useState } from "react";
+export const NewTaskForm = ({ onAdd }) => {
+  const [value, setValue] = useState("");
+
+  function handleChange(evt) {
+    setValue(evt.target.value);
+  }
+
+  function onSubmit(evt) {
+    evt.preventDefault();
+    onAdd(value);
+    setValue("");
+  }
+
   return (
-    <header className="header">
-      <h1>todos</h1>
-      <input
+    <form onSubmit={onSubmit}>
+      <Input
         className="new-todo"
         placeholder="What needs to be done?"
         autoFocus
+        name="new-todo"
+        value={value}
+        onChange={handleChange}
       />
-    </header>
+    </form>
   );
 };
