@@ -1,17 +1,18 @@
-import "./NewTaskForm.css";
-import Input from "../Input/Input";
-import { useState } from "react";
-export const NewTaskForm = ({ onAdd }) => {
-  const [value, setValue] = useState("");
+import Input from '../Input/Input';
+import { useState } from 'react';
+import './NewTaskForm.css';
 
-  function handleChange(evt) {
+function NewTaskForm({ onAdd = () => {} }) {
+  const [value, setValue] = useState('');
+
+  const handleChange = (evt) => {
     setValue(evt.target.value);
-  }
+  };
 
   function onSubmit(evt) {
     evt.preventDefault();
     onAdd(value);
-    setValue("");
+    setValue('');
   }
 
   return (
@@ -26,4 +27,6 @@ export const NewTaskForm = ({ onAdd }) => {
       />
     </form>
   );
-};
+}
+
+export default NewTaskForm;
