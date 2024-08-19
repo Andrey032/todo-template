@@ -16,7 +16,6 @@ function App() {
 
   const onAdd = (value) => {
     const { task, minute, second } = value;
-    console.log(value);
     if (!value.task.trim()) return;
     const newItem = {
       id: index,
