@@ -1,5 +1,5 @@
 import Input from '../Input/Input';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './NewTaskForm.css';
 
 function NewTaskForm({ onAdd = () => {} }) {
@@ -9,23 +9,15 @@ function NewTaskForm({ onAdd = () => {} }) {
     second: '',
   });
 
-  useEffect(() => {
-    const handleSubmit = (evt) => {
-      if (evt.key === 'Enter') {
-        evt.preventDefault();
-        onAdd(currentValue);
-        setCurentValue({
-          task: '',
-          minute: '',
-          second: '',
-        });
-      }
-    };
-    window.addEventListener('keydown', handleSubmit);
-    return () => {
-      window.removeEventListener('keydown', handleSubmit);
-    };
-  }, [onAdd, currentValue]);
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onAdd(currentValue);
+    setCurentValue({
+      task: '',
+      minute: '',
+      second: '',
+    });
+  };
 
   const handleChangeTask = (evt) => {
     const { name, value } = evt.target;
@@ -36,7 +28,7 @@ function NewTaskForm({ onAdd = () => {} }) {
   };
 
   return (
-    <form className="new-todo-form">
+    <form onSubmit={handleSubmit} className="new-todo-form">
       <Input
         className="new-todo"
         placeholder="What needs to be done?"
@@ -59,6 +51,9 @@ function NewTaskForm({ onAdd = () => {} }) {
         value={currentValue.second}
         onChange={handleChangeTask}
       />
+      <button type="submit" hidden>
+        Отправить
+      </button>
     </form>
   );
 }

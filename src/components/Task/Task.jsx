@@ -64,6 +64,9 @@ function Task({
       {edit && (
         <form onSubmit={onSubmitEditTask}>
           <Input type="text" className="edit" value={value} onChange={handleChange} name="edit" autoFocus />
+          <button type="submit" hidden>
+            Отправить
+          </button>
         </form>
       )}
     </li>
