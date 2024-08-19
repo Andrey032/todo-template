@@ -16,7 +16,7 @@ function NewTaskForm({ onAdd = () => {} }) {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="new-todo-form">
       <Input
         className="new-todo"
         placeholder="What needs to be done?"
@@ -25,6 +25,8 @@ function NewTaskForm({ onAdd = () => {} }) {
         value={value}
         onChange={handleChange}
       />
+      {/* <Input className="new-todo-form__timer" placeholder="Min" name="min" defaultValue="1" />
+      <Input className="new-todo-form__timer" placeholder="Sec" name="sec" defaultValue="2" /> */}
     </form>
   );
 }

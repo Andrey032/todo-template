@@ -41,8 +41,13 @@ function Task({
         <div className="view">
           <Input className="toggle" type="checkbox" onChange={onToggleDone} name="toggle" done={done} />
           <label>
-            <span className="description">{description}</span>
-            <span className="created">{`created ${timeAddTask}`}</span>
+            <span className="title">{description}</span>
+            <span className="description">
+              <button type="button" className="icon icon-play" aria-label="воспроизвести" />
+              <button type="button" className="icon icon-pause" aria-label="остановить" />
+              12:25
+            </span>
+            <span className="description">{`created ${timeAddTask}`}</span>
           </label>
           <button
             type="button"
