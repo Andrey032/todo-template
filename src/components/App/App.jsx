@@ -15,10 +15,14 @@ function App() {
   const onRemove = (id) => setData((prevData) => prevData.filter((el) => el.id !== id));
 
   const onAdd = (value) => {
-    if (!value.trim()) return;
+    const { task, minute, second } = value;
+    console.log(value);
+    if (!value.task.trim()) return;
     const newItem = {
       id: index,
-      description: value,
+      description: task,
+      minute,
+      second,
       created: new Date(),
       done: false,
       edit: false,

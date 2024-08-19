@@ -7,6 +7,8 @@ import KG from 'date-fns/locale/en-AU';
 
 function Task({
   description = '',
+  minute = '',
+  second = '',
   created = {},
   onRemove,
   onToggleDone,
@@ -45,7 +47,7 @@ function Task({
             <span className="description">
               <button type="button" className="icon icon-play" aria-label="воспроизвести" />
               <button type="button" className="icon icon-pause" aria-label="остановить" />
-              12:25
+              {`${minute}:${second}`}
             </span>
             <span className="description">{`created ${timeAddTask}`}</span>
           </label>
@@ -69,6 +71,8 @@ function Task({
 }
 Task.propTypes = {
   description: PropTypes.string,
+  minute: PropTypes.string,
+  second: PropTypes.string,
   created: PropTypes.instanceOf(Object),
   done: PropTypes.bool,
   edit: PropTypes.bool,

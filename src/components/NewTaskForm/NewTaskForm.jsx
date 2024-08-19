@@ -1,32 +1,64 @@
 import Input from '../Input/Input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './NewTaskForm.css';
 
 function NewTaskForm({ onAdd = () => {} }) {
-  const [value, setValue] = useState('');
+  const [currentValue, setCurentValue] = useState({
+    task: '',
+    minute: '',
+    second: '',
+  });
 
-  const handleChange = (evt) => {
-    setValue(evt.target.value);
+  useEffect(() => {
+    const handleSubmit = (evt) => {
+      if (evt.key === 'Enter') {
+        evt.preventDefault();
+        onAdd(currentValue);
+        setCurentValue({
+          task: '',
+          minute: '',
+          second: '',
+        });
+      }
+    };
+    window.addEventListener('keydown', handleSubmit);
+    return () => {
+      window.removeEventListener('keydown', handleSubmit);
+    };
+  }, [onAdd, currentValue]);
+
+  const handleChangeTask = (evt) => {
+    const { name, value } = evt.target;
+    setCurentValue((prevValue) => ({
+      ...prevValue,
+      [name]: value,
+    }));
   };
 
-  function onSubmit(evt) {
-    evt.preventDefault();
-    onAdd(value);
-    setValue('');
-  }
-
   return (
-    <form onSubmit={onSubmit} className="new-todo-form">
+    <form className="new-todo-form">
       <Input
         className="new-todo"
         placeholder="What needs to be done?"
         autoFocus
-        name="new-todo"
-        value={value}
-        onChange={handleChange}
+        name="task"
+        value={currentValue.task}
+        onChange={handleChangeTask}
       />
-      {/* <Input className="new-todo-form__timer" placeholder="Min" name="min" defaultValue="1" />
-      <Input className="new-todo-form__timer" placeholder="Sec" name="sec" defaultValue="2" /> */}
+      <Input
+        className="new-todo-form__timer"
+        placeholder="Min"
+        name="minute"
+        value={currentValue.minute}
+        onChange={handleChangeTask}
+      />
+      <Input
+        className="new-todo-form__timer"
+        placeholder="Sec"
+        name="second"
+        value={currentValue.second}
+        onChange={handleChangeTask}
+      />
     </form>
   );
 }
