@@ -10,18 +10,19 @@ function App() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState('All');
   const [index, setIndex] = useState(1);
+
   const unfinishedTasksCounter = data.filter((el) => el.done === false).length;
 
   const onRemove = (id) => setData((prevData) => prevData.filter((el) => el.id !== id));
 
-  const onAdd = (value) => {
-    const { task, minute, second } = value;
-    if (!value.task.trim()) return;
+  const onAdd = (value, time) => {
+    const { minute, second } = time;
+    if (!value.trim()) return;
     const newItem = {
       id: index,
-      description: task,
-      minute,
-      second,
+      description: value,
+      minute: minute.length === 1 ? `0${minute}` : minute,
+      second: second.length === 1 ? `0${second}` : second,
       created: new Date(),
       done: false,
       edit: false,
@@ -68,6 +69,17 @@ function App() {
   const visibleItems = filterSwitch(data, filter);
   const onSwitchFilter = (filterStr) => setFilter(filterStr);
 
+  const setNewTime = (id, second, minute) => {
+    const idx = data.findIndex((el) => el.id === id);
+    const oldObj = data[idx];
+    const newObject = {
+      ...oldObj,
+      second,
+      minute,
+    };
+    setData((prevArr) => prevArr.with(idx, newObject));
+  };
+
   return (
     <section className="todoapp">
       <Header>
@@ -80,6 +92,7 @@ function App() {
           onToggleDone={onToggleDone}
           onToggleEdit={onToggleEdit}
           onEditTask={onEditTask}
+          setNewTime={setNewTime}
         />
       </Main>
       <Footer

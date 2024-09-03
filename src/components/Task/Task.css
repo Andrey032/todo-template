@@ -210,3 +210,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.todo-list li .icon-pause {
+  margin-right: 5px;
+}

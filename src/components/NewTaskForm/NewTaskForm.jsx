@@ -3,28 +3,32 @@ import { useState } from 'react';
 import './NewTaskForm.css';
 
 function NewTaskForm({ onAdd = () => {} }) {
-  const [currentValue, setCurentValue] = useState({
-    task: '',
+  const [currentValue, setCurentValue] = useState('');
+  const [time, setTime] = useState({
     minute: '',
     second: '',
   });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onAdd(currentValue);
-    setCurentValue({
-      task: '',
+    onAdd(currentValue, time);
+    setCurentValue('');
+    setTime({
       minute: '',
       second: '',
     });
   };
 
-  const handleChangeTask = (evt) => {
+  const handleChangeTime = (evt) => {
     const { name, value } = evt.target;
-    setCurentValue((prevValue) => ({
+    setTime((prevValue) => ({
       ...prevValue,
       [name]: value,
     }));
+  };
+
+  const handleChangeTask = (evt) => {
+    setCurentValue(evt.target.value);
   };
 
   return (
@@ -34,22 +38,26 @@ function NewTaskForm({ onAdd = () => {} }) {
         placeholder="What needs to be done?"
         autoFocus
         name="task"
-        value={currentValue.task}
+        value={currentValue}
         onChange={handleChangeTask}
       />
       <Input
         className="new-todo-form__timer"
         placeholder="Min"
         name="minute"
-        value={currentValue.minute}
-        onChange={handleChangeTask}
+        value={time.minute}
+        onChange={handleChangeTime}
+        maxLength="2"
+        pattern="[0-9]{1,2}"
       />
       <Input
         className="new-todo-form__timer"
         placeholder="Sec"
         name="second"
-        value={currentValue.second}
-        onChange={handleChangeTask}
+        value={time.second}
+        onChange={handleChangeTime}
+        maxLength="2"
+        pattern="[0-9]{1,2}"
       />
       <button type="submit" hidden>
         Отправить
