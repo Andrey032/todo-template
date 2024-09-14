@@ -53,10 +53,10 @@ function Task({
   const decreaseTimer = useCallback(() => {
     const computedSecond = secondTimer.length === 1 ? `0${secondTimer}` : secondTimer;
     const computedMinute = minuteTimer.length === 1 ? `0${minuteTimer}` : minuteTimer;
-    if (computedMinute === '00' && computedSecond === '00') {
+    if ((computedMinute === '00' && computedSecond === '00') || (computedMinute === '' && computedSecond === '00')) {
       setIsActiveTimer(false);
     }
-    if (computedSecond === '00' && computedMinute !== '00') {
+    if ((computedMinute !== '00' && computedSecond === '00') || (computedMinute !== '00' && computedSecond === '')) {
       setMinuteTimer((prevMinute) => String(prevMinute - 1));
       setSecondTimer('60');
     }
@@ -81,6 +81,7 @@ function Task({
   const handleChange = (evt) => {
     setValue(evt.target.value);
   };
+
   const onSubmitEditTask = (evt) => {
     evt.preventDefault();
     onEditTask(value);
