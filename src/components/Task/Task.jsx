@@ -29,6 +29,8 @@ function Task({
   const [secondTimerUp, setSecondTimerUp] = useState(0);
   const [secondTimer, setSecondTimer] = useState(second);
   const [minuteTimer, setMinuteTimer] = useState(minute);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
   let classNames;
   if (done) classNames = 'completed';
   if (edit) classNames = 'editing';
@@ -41,22 +43,31 @@ function Task({
     setIsActiveTimer(false);
   };
 
+  const changeTimeFormat = (time) => {
+    return String(time).length === 1 ? `0${time}` : String(time);
+  };
+
   const increaseTimer = useCallback(() => {
     const secondCounter = secondTimerUp % 60;
     const minuteCounter = Math.floor(secondTimerUp / 60);
-    const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}` : String(secondCounter);
-    const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}` : String(minuteCounter);
+    const computedSecond = changeTimeFormat(secondCounter);
+    const computedMinute = changeTimeFormat(minuteCounter);
     setNewTime(computedSecond, computedMinute);
     setSecondTimerUp((prevCounter) => prevCounter + 1);
   }, [secondTimerUp, setNewTime]);
 
   const decreaseTimer = useCallback(() => {
-    const computedSecond = secondTimer.length === 1 ? `0${secondTimer}` : secondTimer;
-    const computedMinute = minuteTimer.length === 1 ? `0${minuteTimer}` : minuteTimer;
-    if ((computedMinute === '00' && computedSecond === '00') || (computedMinute === '' && computedSecond === '00')) {
+    const computedSecond = changeTimeFormat(secondTimer);
+    const computedMinute = changeTimeFormat(minuteTimer);
+    if (
+      (computedMinute <= '00' && computedSecond <= '00') ||
+      (computedMinute === '' && computedSecond <= '00') ||
+      (computedMinute <= '00' && computedSecond === '')
+    ) {
       setIsActiveTimer(false);
+      setButtonDisabled(true);
     }
-    if ((computedMinute !== '00' && computedSecond === '00') || (computedMinute !== '00' && computedSecond === '')) {
+    if ((computedMinute > '00' && computedSecond === '00') || (computedMinute > '00' && computedSecond === '')) {
       setMinuteTimer((prevMinute) => String(prevMinute - 1));
       setSecondTimer('60');
     }
@@ -95,7 +106,13 @@ function Task({
           <label>
             <span className="title">{description}</span>
             <span className="description">
-              <button type="button" className="icon icon-play" aria-label="воспроизвести" onClick={playTimer} />
+              <button
+                type="button"
+                className="icon icon-play"
+                aria-label="воспроизвести"
+                onClick={playTimer}
+                disabled={buttonDisabled}
+              />
               <button type="button" className="icon icon-pause" aria-label="остановить" onClick={pauseTimer} />
               {`${minute || '00'} : ${second || '00'}`}
             </span>
