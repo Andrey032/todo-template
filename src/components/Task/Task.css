@@ -73,6 +73,11 @@
   color: gray;
 }
 
+.todo-list li label .description.created {
+  width: 200px;
+  text-align: end;
+}
+
 .todo-list li label .title {
   word-break: break-all;
   display: block;

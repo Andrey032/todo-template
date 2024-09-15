@@ -116,7 +116,7 @@ function Task({
               <button type="button" className="icon icon-pause" aria-label="остановить" onClick={pauseTimer} />
               {`${minute || '00'} : ${second || '00'}`}
             </span>
-            <span className="description">{`created ${timeAddTask}`}</span>
+            <span className="description created">{`created ${timeAddTask}`}</span>
           </label>
           <button
             type="button"
