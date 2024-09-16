@@ -1,3 +1,3 @@
 # todo-template
 
-[[Ссылка на проект: todo-template](https://todo-template.vercel.app/)]
+[[Ссылка на проект(GitHub): todo-template](https://andrey032.github.io/todo-template/)]
