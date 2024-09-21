@@ -8,6 +8,7 @@ function TaskList({
   onToggleDone = () => {},
   onToggleEdit = () => {},
   onEditTask = () => {},
+  setNewTime = () => {},
 }) {
   return (
     <ul className="todo-list">
@@ -21,6 +22,7 @@ function TaskList({
             onToggleDone={() => onToggleDone(id)}
             onToggleEdit={() => onToggleEdit(id)}
             onEditTask={(value) => onEditTask(id, value)}
+            setNewTime={(second, minute) => setNewTime(id, second, minute)}
           />
         );
       })}
