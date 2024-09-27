@@ -57,7 +57,10 @@
     "prettier": "3.3.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "npm run lint",
-    "*.{js,jsx,ts,tsx,json,css,scss,md}": "npm run format"
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{js,jsx,json,css,scss,md}": "npm run format"
   }
 }
