@@ -1,6 +1,6 @@
 import './Task.css';
 import Input from '../Input/Input';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 import KG from 'date-fns/locale/en-AU';
@@ -30,6 +30,7 @@ function Task({
   const [secondTimer, setSecondTimer] = useState(second);
   const [minuteTimer, setMinuteTimer] = useState(minute);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const intervalId = useRef(null);
 
   let classNames;
   if (done) classNames = 'completed';
@@ -76,9 +77,8 @@ function Task({
   }, [secondTimer, minuteTimer, setNewTime]);
 
   useEffect(() => {
-    let intervalId;
     if (isActiveTimer) {
-      intervalId = setInterval(() => {
+      intervalId.current = setInterval(() => {
         if ((minute === '' && second === '') || secondTimerUp !== 0) {
           increaseTimer();
         } else {
@@ -86,7 +86,7 @@ function Task({
         }
       }, 1000);
     }
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId.current);
   }, [decreaseTimer, increaseTimer, isActiveTimer, minute, minuteTimer, second, secondTimer, secondTimerUp]);
 
   const handleChange = (evt) => {
