@@ -1,8 +1,9 @@
 import './TasksFilter.css';
 import Button from '../Button/Button';
 import buttonsArr from '../../utils/constants';
+import { memo } from 'react';
 
-function TasksFilter({ filter = 'All', onSwitchFilter }) {
+const TasksFilter = memo(({ filter = 'All', onSwitchFilter }) => {
   return (
     <ul className="filters">
       {buttonsArr.map(({ name }) => {
@@ -15,6 +16,6 @@ function TasksFilter({ filter = 'All', onSwitchFilter }) {
       })}
     </ul>
   );
-}
+});
 
 export default TasksFilter;

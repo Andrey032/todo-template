@@ -1,8 +1,8 @@
 import Input from '../Input/Input';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import './NewTaskForm.css';
 
-function NewTaskForm({ onAdd = () => {} }) {
+const NewTaskForm = memo(({ onAdd = () => {} }) => {
   const [currentValue, setCurentValue] = useState('');
   const [time, setTime] = useState({
     minute: '',
@@ -64,6 +64,6 @@ function NewTaskForm({ onAdd = () => {} }) {
       </button>
     </form>
   );
-}
+});
 
 export default NewTaskForm;

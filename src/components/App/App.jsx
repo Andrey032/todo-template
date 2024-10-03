@@ -4,32 +4,33 @@ import TaskList from '../TaskList/TaskList';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 function App() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState('All');
   const [index, setIndex] = useState(1);
 
-  const unfinishedTasksCounter = data.filter((el) => el.done === false).length;
+  const unfinishedTasksCounter = useMemo(() => data.filter((el) => el.done === false).length, [data]);
 
-  const onRemove = (id) => setData((prevData) => prevData.filter((el) => el.id !== id));
-
-  const onAdd = (value, time) => {
-    const { minute, second } = time;
-    if (!value.trim()) return;
-    const newItem = {
-      id: index,
-      description: value,
-      minute: minute.length === 1 ? `0${minute}` : minute,
-      second: second.length === 1 ? `0${second}` : second,
-      created: new Date(),
-      done: false,
-      edit: false,
-    };
-    setData((prevData) => [...prevData, newItem]);
-    setIndex((prev) => prev + 1);
-  };
+  const onAdd = useCallback(
+    (value, time) => {
+      const { minute, second } = time;
+      if (!value.trim()) return;
+      const newItem = {
+        id: index,
+        description: value,
+        minute: minute.length === 1 ? `0${minute}` : minute,
+        second: second.length === 1 ? `0${second}` : second,
+        created: new Date(),
+        done: false,
+        edit: false,
+      };
+      setData((prevData) => [...prevData, newItem]);
+      setIndex((prev) => prev + 1);
+    },
+    [index]
+  );
 
   const toggleProperty = (arr, id, propName, ...otherProp) => {
     const [description, value] = otherProp;
@@ -43,21 +44,32 @@ function App() {
     setData((prevArr) => prevArr.with(idx, newObj));
   };
 
-  const onToggleDone = (id) => {
-    toggleProperty(data, id, 'done');
-  };
+  const onRemove = useCallback((id) => setData((prevData) => prevData.filter((el) => el.id !== id)), []);
 
-  const onToggleEdit = (id) => {
-    toggleProperty(data, id, 'edit');
-  };
+  const onToggleDone = useCallback(
+    (id) => {
+      toggleProperty(data, id, 'done');
+    },
+    [data]
+  );
 
-  const onEditTask = (id, value) => {
-    toggleProperty(data, id, 'edit', 'description', value);
-  };
+  const onToggleEdit = useCallback(
+    (id) => {
+      toggleProperty(data, id, 'edit');
+    },
+    [data]
+  );
 
-  const clearCompleted = () => {
+  const onEditTask = useCallback(
+    (id, value) => {
+      toggleProperty(data, id, 'edit', 'description', value);
+    },
+    [data]
+  );
+
+  const clearCompleted = useCallback(() => {
     setData((prevData) => prevData.filter((el) => !el.done));
-  };
+  }, []);
 
   const filterSwitch = (items, filterStr) => {
     if (filterStr === 'All') return items;
@@ -67,7 +79,7 @@ function App() {
   };
 
   const visibleItems = filterSwitch(data, filter);
-  const onSwitchFilter = (filterStr) => setFilter(filterStr);
+  const onSwitchFilter = useCallback((filterStr) => setFilter(filterStr), []);
 
   const setNewTime = (id, second, minute) => {
     const idx = data.findIndex((el) => el.id === id);
