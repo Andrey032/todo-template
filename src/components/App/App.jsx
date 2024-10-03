@@ -78,19 +78,22 @@ function App() {
     return items;
   };
 
-  const visibleItems = filterSwitch(data, filter);
+  const visibleItems = useMemo(() => filterSwitch(data, filter), [data, filter]);
   const onSwitchFilter = useCallback((filterStr) => setFilter(filterStr), []);
 
-  const setNewTime = (id, second, minute) => {
-    const idx = data.findIndex((el) => el.id === id);
-    const oldObj = data[idx];
-    const newObject = {
-      ...oldObj,
-      second,
-      minute,
-    };
-    setData((prevArr) => prevArr.with(idx, newObject));
-  };
+  const setNewTime = useCallback(
+    (id, second, minute) => {
+      const idx = data.findIndex((el) => el.id === id);
+      const oldObj = data[idx];
+      const newObject = {
+        ...oldObj,
+        second,
+        minute,
+      };
+      setData((prevArr) => prevArr.with(idx, newObject));
+    },
+    [data]
+  );
 
   return (
     <section className="todoapp">
