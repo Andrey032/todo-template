@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import './Input.css';
 
-function Input(props) {
+const Input = memo((props) => {
   const { done, ...propsItem } = props;
   return <input {...propsItem} checked={done} />;
-}
+});
 
 export default Input;

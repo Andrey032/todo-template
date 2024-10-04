@@ -1,8 +1,9 @@
 import './Footer.css';
 import TasksFilter from '../TasksFilter/TasksFilter';
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 
-function Footer({ countTask = 0, clearCompleted = () => {}, filter, onSwitchFilter = () => {} }) {
+const Footer = memo(({ countTask = 0, clearCompleted = () => {}, filter, onSwitchFilter = () => {} }) => {
   return (
     <footer className="footer">
       <span className="todo-count">{countTask} items left</span>
@@ -12,7 +13,7 @@ function Footer({ countTask = 0, clearCompleted = () => {}, filter, onSwitchFilt
       </button>
     </footer>
   );
-}
+});
 
 Footer.propTypes = {
   countTask: PropTypes.number,
